@@ -5,10 +5,10 @@ This landing page provides an overview of the Supercomputer Fugaku operated by
 resources, software, and documentation. More detailed materials are available
 to approved users through official access programs.
 
-> **What's new (2026-04):** AI/ML workflows on A64FX are getting renewed
-> investment. See **[AI / Machine Learning on Fugaku](#-ai--machine-learning-on-fugaku-highlight)**
-> below — including **DL4Fugaku · oneDNN**, distributed PyTorch / TensorFlow,
-> and the ongoing **ollama-on-A64FX** evaluation.
+> **What's new (2026-04):** AI/ML workflows on A64FX are under continuous
+> update. See **[AI / Machine Learning on Fugaku](#-ai--machine-learning-on-fugaku-highlight)**
+> below for links to the official Fugaku AI framework guides and current
+> status notes.
 
 ---
 
@@ -96,6 +96,7 @@ sequence is roughly as follows:
 ### Community / GitHub Docs
 
 - [Fugaku documentation repo](https://github.com/RIKEN-RCCS/fugaku-doc/tree/main/docs)
+- [Fugaku AI framework guide (JP)](https://riken-rccs.github.io/fugaku-doc/docs/user-guide/sys-use/fugakuaiguide/build/ja/index.html)
 
 ---
 
@@ -157,15 +158,24 @@ sequence is roughly as follows:
 
 ### Data / I/O Libraries
 
-- **HDF5** → [Fugaku HDF5 Documentation](https://www.hpci-office.jp/en/for_users/appli_software)
-- **NetCDF** → [Fugaku NetCDF Documentation](https://www.hpci-office.jp/en/for_users/appli_software)
-- **ADIOS2** → [Fugaku ADIOS2 Documentation](https://www.hpci-office.jp/en/for_users/appli_software)
-- **h5py** → [Fugaku h5py Documentation](https://www.hpci-office.jp/en/for_users/appli_software)
+- **HDF5**
+- **NetCDF**
+- **ADIOS2**
+- **h5py**
+
+Reference (official software lists):
+
+- [HPCI Pre-installed application software](https://www.hpci-office.jp/en/for_users/appli_software)
+- [Fugaku Spack guide (source)](https://github.com/riken-rccs/fugaku-doc/tree/main/docs/user-guide/sys-use/fugakuspackguide)
 
 ### Scientific Python Stack
 
-- **Python · NumPy · SciPy · mpi4py · xarray · ASE** →
-  [Fugaku Python Modules](https://www.hpci-office.jp/en/using_hpci/hardware_software_resource/2026/r-ccs_riken_2026-2)
+- **Python · NumPy · SciPy · mpi4py · xarray · ASE**
+
+Reference:
+
+- [HPCI Hardware/Software resource (Fugaku)](https://www.hpci-office.jp/en/using_hpci/hardware_software_resource/2026/r-ccs_riken_2026-2)
+- [Fugaku Spack guide (source)](https://github.com/riken-rccs/fugaku-doc/tree/main/docs/user-guide/sys-use/fugakuspackguide)
 
 Fugaku provides these libraries via **Spack** and pre-installed system environments.
 
@@ -174,42 +184,37 @@ Fugaku provides these libraries via **Spack** and pre-installed system environme
 ## ★ AI / Machine Learning on Fugaku (Highlight)
 
 > This section consolidates Fugaku's AI/ML software stack, including the
-> **DL4Fugaku** project's A64FX-optimized backends and the latest evaluation
-> activities. It is a primary reference for ARiSE / AI for Science researchers
-> who plan to run inference, surrogate, or agentic workloads on Fugaku.
+> public A64FX optimization references and current evaluation notes. It is a
+> primary reference for ARiSE / AI for Science researchers who plan to run
+> inference, surrogate, or agentic workloads on Fugaku.
 
 ### Deep Learning Frameworks (HPCI-distributed builds)
 
-- **PyTorch** (A64FX-optimized) → [PyTorch at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **TensorFlow** (A64FX-optimized) → [TensorFlow at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **Horovod** (distributed training) → [Horovod at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
+- **PyTorch** (A64FX-related guide) → [PyTorch on the Fugaku (JP)](https://riken-rccs.github.io/fugaku-doc/docs/user-guide/sys-use/fugakuaiguide/build/ja/pytorch.html)
+- **TensorFlow** (A64FX-related guide) → [TensorFlow on the Fugaku (JP)](https://riken-rccs.github.io/fugaku-doc/docs/user-guide/sys-use/fugakuaiguide/build/ja/tensorflow.html)
+- **Horovod** (distributed training) → [Fugaku AI framework guide (JP)](https://riken-rccs.github.io/fugaku-doc/docs/user-guide/sys-use/fugakuaiguide/build/ja/index.html)
 
 These builds incorporate the optimizations described below; users do not
 typically need to compile their own framework.
 
-### DL4Fugaku · oneDNN on A64FX
+### oneDNN / A64FX optimization references
 
-[DL4Fugaku](https://github.com/fujitsu/dnnl_aarch64) is the long-running effort
-to deliver a production-quality deep-learning stack on A64FX. It centers on a
-Fujitsu-maintained **oneDNN (Deep Neural Network Library)** port that targets
-A64FX's SVE (Scalable Vector Extension) units, exploiting SIMD-width-512
-operations and HBM2 bandwidth.
+Publicly available references for oneDNN and A64FX optimizations include the
+following repositories and guides:
 
 Key components:
 
-- **oneDNN-A64FX** — A64FX-tuned primitives for convolution, GEMM, batched
-  matmul, attention, and quantized inference; called by both PyTorch and
-  TensorFlow framework backends.
-- **PyTorch backend integration** — vectorized JIT kernels, GLOO/MPI for
-  multi-node, mixed-precision (BF16 / FP16) where SVE permits.
-- **TensorFlow backend integration** — XLA + oneDNN fused operators.
-- **Best-practice tuning guides** — process / thread placement, NUMA pinning,
-  memory-bandwidth-bound layer sizing, communication overlap.
+- **fujitsu/dnnl_aarch64** — AArch64/SVE向け deep-learning kernel 実装。
+- **fujitsu/pytorch** — Fugaku向けPyTorch関連情報。
+- **fujitsu/tensorflow** — Fugaku向けTensorFlow関連情報。
+- **RIKEN-RCCS/A64FX_Tuning_Techniques** — A64FX最適化の実践情報。
 
 Recommended starting points:
 
-- DL4Fugaku project: <https://github.com/fujitsu/dnnl_aarch64>
-- oneDNN upstream (Intel) with A64FX port: <https://github.com/oneapi-src/oneDNN>
+- fujitsu/dnnl_aarch64: <https://github.com/fujitsu/dnnl_aarch64>
+- fujitsu/pytorch: <https://github.com/fujitsu/pytorch>
+- fujitsu/tensorflow: <https://github.com/fujitsu/tensorflow>
+- oneDNN upstream: <https://github.com/oneapi-src/oneDNN>
 - A64FX SVE tuning techniques: <https://github.com/RIKEN-RCCS/A64FX_Tuning_Techniques>
 
 ### Distributed Training & Inference
@@ -226,12 +231,9 @@ Recommended starting points:
 - **ollama on A64FX (re-evaluation, ongoing).** Recent versions of
   [ollama](https://github.com/ollama/ollama) and the underlying
   [llama.cpp](https://github.com/ggerganov/llama.cpp) have substantially
-  improved ARM64 / SVE support. We are re-evaluating modern small-to-mid
-  scale LLMs (7B / 13B / 30B class, GGUF-quantized) on A64FX nodes.
-  Progress, build recipes, and benchmark results will be published in the
-  [F-DATA](https://github.com/RIKEN-RCCS/F-DATA) and
-  [A64FX Tuning Techniques](https://github.com/RIKEN-RCCS/A64FX_Tuning_Techniques)
-  repos and on this page.
+  improved ARM64 / SVE support. Evaluation on A64FX is ongoing.
+  Public update channels are this repository and related official Fugaku
+  documentation pages.
 - **vLLM / Triton Inference Server.** Currently targeted at GPU systems
   (see the [AI for Science Supercomputer](https://github.com/RIKEN-RCCS/Rikyu));
   Fugaku is positioned for CPU-side inference and surrogate workloads.
@@ -246,9 +248,9 @@ Recommended starting points:
 
 ### Selected Papers / Resources
 
-- Catalog of DL4Fugaku-related publications and benchmarks: see
-  <https://github.com/fujitsu/dnnl_aarch64> and
-  [R-CCS Fugaku results](https://www.r-ccs.riken.jp/en/fugaku/research/).
+- AI framework references: see
+  <https://riken-rccs.github.io/fugaku-doc/docs/user-guide/sys-use/fugakuaiguide/build/ja/index.html> and
+  [R-CCS Fugaku research / achievements](https://www.r-ccs.riken.jp/en/fugaku/research/).
 - A64FX architecture / performance papers (Fujitsu Technical Review):
   <https://www.fujitsu.com/global/about/resources/publications/technicalreview/>
 
@@ -261,61 +263,66 @@ Recommended starting points:
 
 ### Molecular Dynamics
 
-- **GROMACS** → [GROMACS at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_gromacs)
-- **LAMMPS** → [LAMMPS at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_lammps)
-- **NAMD** → [NAMD at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **AMBER** → [AMBER at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **GENESIS** (R-CCS) → [GENESIS at R-CCS](https://www.r-ccs.riken.jp/en/research/labs/cbrt/index.html)
+- **GROMACS**
+- **LAMMPS**
+- **NAMD**
+- **AMBER**
+- **GENESIS** (R-CCS)
 
 ### Quantum Chemistry / Electronic Structure
 
-- **Quantum ESPRESSO** → [Quantum ESPRESSO on Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_qe/qe_r-ccs_riken-2)
-- **ABINIT** → [ABINIT at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **NWChem** → [NWChem at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **NTChem** (R-CCS) → [NTChem at R-CCS](https://www.r-ccs.riken.jp/labs/lpnctrt/)
-- **Gaussian** (commercial) → [Gaussian on Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **SMASH** → [SMASH at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_smash)
+- **Quantum ESPRESSO**
+- **ABINIT**
+- **NWChem**
+- **NTChem** (R-CCS)
+- **Gaussian** (commercial)
+- **SMASH**
 
 ### Materials Science / Condensed Matter
 
-- **VASP** → [VASP at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **Quantum ESPRESSO** → [Quantum ESPRESSO on Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_qe/qe_r-ccs_riken-2)
-- **OpenMX** → [OpenMX at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_openmx)
-- **SALMON** → [SALMON at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_salmon)
-- **CP2K** → [CP2K at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **Phonopy** → [Phonopy at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_phonopy/)
-- **ALAMODE** → [ALAMODE at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_alamode)
+- **VASP**
+- **Quantum ESPRESSO**
+- **OpenMX**
+- **SALMON**
+- **CP2K**
+- **Phonopy**
+- **ALAMODE**
 
 ### Computational Fluid Dynamics (CFD)
 
-- **OpenFOAM** → [OpenFOAM at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_openfoam)
-- **FrontFlow/blue** (R-CCS) → [FrontFlow/blue at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software/appli_frontflowblue)
-- **ANSYS Fluent** (commercial) → [ANSYS Fluent at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **Simcenter STAR-CCM+** → [Simcenter STAR-CCM+ at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
+- **OpenFOAM**
+- **FrontFlow/blue** (R-CCS)
+- **ANSYS Fluent** (commercial)
+- **Simcenter STAR-CCM+**
 
 ### Weather / Climate
 
-- **SCALE** (R-CCS) → [SCALE at R-CCS](https://scale.riken.jp/)
-- **WRF** → [WRF at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **NEMO** → [NEMO at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
+- **SCALE** (R-CCS)
+- **WRF**
+- **NEMO**
 
 ### Bioinformatics
 
-- **BWA** → [BWA at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **SAMtools** → [SAMtools at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **BEDTools** → [BEDTools at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **Picard** → [Picard at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
+- **BWA**
+- **SAMtools**
+- **BEDTools**
+- **Picard**
 
 Bioinformatics tools are available via **system modules** or **Spack**.
 
 ### Visualization / Analysis Applications
 
-- **ParaView** → [ParaView at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **VisIt** → [VisIt at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **VMD** → [VMD at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
-- **PyMOL** → [PyMOL at Fugaku](https://www.hpci-office.jp/en/for_users/appli_software)
+- **ParaView**
+- **VisIt**
+- **VMD**
+- **PyMOL**
 
 These are pre-installed on Fugaku as part of the **visualization suite**.
+
+Application list references (official):
+
+- [HPCI Pre-installed application software](https://www.hpci-office.jp/en/for_users/appli_software)
+- [HPCI Hardware/Software resource (Fugaku)](https://www.hpci-office.jp/en/using_hpci/hardware_software_resource/2026/r-ccs_riken_2026-2)
 
 ### Notes on Availability
 
@@ -359,7 +366,7 @@ For a **full list of software** and availability, check the **HPCI Software Reso
 ### Network
 
 - Tofu Interconnect D overview: <https://www.r-ccs.riken.jp/en/fugaku/about/>
-- Technical paper (Fujitsu): <https://www.fujitsu.com/global/about/resources/publications/technicalreview/>
+- Additional public technical references: <https://www.r-ccs.riken.jp/en/fugaku/research/>
 
 ### Storage
 
