@@ -237,6 +237,8 @@ Recommended starting points:
 - **vLLM / Triton Inference Server.** Currently targeted at GPU systems
   (see the [AI for Science Supercomputer](https://github.com/RIKEN-RCCS/Rikyu));
   Fugaku is positioned for CPU-side inference and surrogate workloads.
+- **dalotia** is a [data loader library](https://github.com/RIKEN-RCCS/dalotia/)
+  for tensors to easily integrate inference pipelines into scientific apps
 
 ### AI for Science Use Cases
 
