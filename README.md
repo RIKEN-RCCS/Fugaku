@@ -389,7 +389,7 @@ For a **full list of software** and availability, check the **HPCI Software Reso
 ## Related Projects & Initiatives
 
 - **AI for Science Supercomputer** (GPU companion system, ARiSE platform):
-  <https://github.com/RIKEN-RCCS/Rikyu>
+  <https://github.com/RIKEN-RCCS/AI-for-Science-Supercomputer>
 - **RiVault** (RIKEN AI inference gateway): <https://github.com/RIKEN-RCCS/RiVault>
 - Fugaku co-design program: <https://www.r-ccs.riken.jp/en/fugaku/fs2020/>
 - Post-Fugaku / next-gen HPC research: <https://www.r-ccs.riken.jp/en/>
